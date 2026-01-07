@@ -6,6 +6,7 @@ const experiences = [
     {
         role: "Supervising hands-on sessions Programming",
         company: "UGent",
+        companyHref: "https://www.ugent.be/",
         period: "Sep - Dec 2025",
         description:
             "Guided university students through Python programming concepts during hands-on lab sessions at Ghent University. " +
@@ -16,6 +17,7 @@ const experiences = [
     {
         role: "Backend Developer",
         company: "Sensolus",
+        companyHref: "https://www.sensolus.com",
         period: "Aug 2025",
         description:
             "Enhanced an MCP connector to generate comprehensive tracker journey reports, enabling data-driven insights and analytics. " +
@@ -24,6 +26,7 @@ const experiences = [
     {
         role: "Internship: Full Stack Developer",
         company: "DAVO Group",
+        companyHref: "https://www.davogroup.be/",
         period: "Jul 2025",
         description:
             "Enhanced CRM system integrations within the customer portal, improving user experience to manage their products and provide better information. " +
@@ -33,6 +36,7 @@ const experiences = [
     {
         role: "Backend Developer",
         company: "Codefever",
+        companyHref: "https://codefever.be",
         period: "Jul 2024",
         description:
             "Developed test scripts in JavaScript to evaluate and provide constructive feedback on children's Scratch programming projects. " +
@@ -43,6 +47,7 @@ const experiences = [
         role: "Research",
         company: "Sigasi",
         period: "Jul 2023",
+        companyHref: "https://www.sigasi.com/",
         description:
             "Conducted comprehensive market research to identify and evaluate time-tracking solutions for project management. " +
             "Assessed various platforms based on features including employee time logging, project-based tracking, and data visualization capabilities. " +
@@ -117,7 +122,14 @@ export function Experience() {
                                         <h3 className="font-display text-xl font-semibold text-foreground">
                                             {exp.role}
                                         </h3>
-                                        <p className="text-orange-400 font-medium">{exp.company}</p>
+                                        <a
+                                            href={exp.companyHref}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="text-orange-400 font-medium hover:underline"
+                                        >
+                                            {exp.company}
+                                        </a>
                                     </div>
                                     <span className="text-muted-foreground text-sm bg-gray-500/40 px-3 py-1 rounded-full">
                                         {exp.period}
