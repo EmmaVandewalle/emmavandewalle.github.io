@@ -1,8 +1,8 @@
 "use client"
 
 import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
-import Link from "next/link";
+import { motion, AnimatePresence } from "framer-motion";
+import { Menu, X } from "lucide-react";
 
 const navLinks = [
     { name: "About", href: "#about" },
@@ -13,6 +13,7 @@ const navLinks = [
 
 export function Navigation() {
     const [isScrolled, setIsScrolled] = useState(false);
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -27,6 +28,9 @@ export function Navigation() {
         const element = document.querySelector(href);
         if (element) {
             element.scrollIntoView({ behavior: 'smooth' });
+            setTimeout(() => {
+                setIsMobileMenuOpen(false);
+            }, 300);
         }
     };
 
@@ -58,7 +62,8 @@ export function Navigation() {
                     </a>
                 </motion.div>
 
-                <ul className="flex items-center gap-8">
+                {/* Desktop Navigation */}
+                <ul className="hidden md:flex items-center gap-8">
                     {navLinks.map((link, index) => (
                         <motion.li
                             key={link.name}
@@ -81,7 +86,50 @@ export function Navigation() {
                         </motion.li>
                     ))}
                 </ul>
+
+                {/* Mobile Menu Button */}
+                <button
+                    onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                    className="md:hidden text-foreground p-2"
+                    aria-label="Toggle menu"
+                >
+                    {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+                </button>
             </nav>
+
+            {/* Mobile Menu */}
+            <AnimatePresence>
+                {isMobileMenuOpen && (
+                    <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: "auto" }}
+                        exit={{ opacity: 0, height: 0 }}
+                        className="md:hidden bg-background border-t border-border overflow-hidden"
+                    >
+                        <ul className="px-6 py-4 flex flex-col gap-4">
+                            {navLinks.map((link, index) => (
+                                <motion.li
+                                    key={link.name}
+                                    initial={{ opacity: 0, x: -20 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    transition={{
+                                        delay: 0.1 * index,
+                                        duration: 0.2
+                                    }}
+                                >
+                                    <a
+                                        href={link.href}
+                                        onClick={(e) => handleScrollTo(e, link.href)}
+                                        className="text-foreground text-lg font-medium block py-2"
+                                    >
+                                        {link.name}
+                                    </a>
+                                </motion.li>
+                            ))}
+                        </ul>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </motion.header>
     );
 }
